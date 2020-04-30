@@ -22,7 +22,7 @@ angular.module("app", [
         });
 
         $routeProvider.when('/projects/drawnear', {
-            templateUrl: 'resources/projects/DrawNear.html'
+            templateUrl: 'resources/projects/drawnear.html'
         });
         $routeProvider.when('/projects/cpre288', {
             templateUrl: 'resources/projects/cpre288.html'
