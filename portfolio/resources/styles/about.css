@@ -1,0 +1,21 @@
+.about-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+
+    text-align: left;
+    padding: 2rem;
+}
+
+.about-section .company-name {
+    font-size: 2rem;
+}
+
+.about-section .position-title {
+    font-size: 1.5rem;
+    padding: 0.2rem;
+}
+
+.about-section .position-dates {
+    padding: 0.2rem;    
+}

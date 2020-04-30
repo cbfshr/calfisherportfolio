@@ -1,0 +1,44 @@
+.home-intro {
+    text-align: left;
+    padding: 0 1rem;
+}
+
+#home-grid i {
+    font-size: 4rem;
+}
+
+#home-grid .text {
+    font-size: 3rem;
+}
+
+.home-item {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1rem;
+
+    justify-items: center;
+    text-align: left;
+
+    padding: 1rem;
+}
+
+/* ------ Responsiveness ------ */
+/* --- Small Screens --- */
+@media only screen and (max-width: 600px) {
+    .home-intro {
+        text-align: left;
+        padding: 0 1rem;
+    }
+}
+
+
+.intro-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1rem;
+    justify-items: center;
+}
+
+.intro-grid img {
+    width: 70%;
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cal Fisher</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="resources/styles/style.css" />
+    <link rel="stylesheet" href="resources/styles/nav.css" />
+    <link rel="stylesheet" href="resources/styles/home.css" />
+    <link rel="stylesheet" href="resources/styles/about.css" />
+    <link rel="stylesheet" href="resources/styles/projects.css" />
+    <link rel="stylesheet" href="resources/styles/contact.css" />
+    <link rel="stylesheet" href="resources/styles/stlviewer.css" />
+
+    <!-- Fonts -->
+    <link rel="stylesheet" type="text/css" href="vendor/fonts/font-awesome/css/fontawesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="vendor/fonts/font-awesome/css/brands.min.css" />
+    <link rel="stylesheet" type="text/css" href="vendor/fonts/font-awesome/css/regular.min.css" />
+    <link rel="stylesheet" type="text/css" href="vendor/fonts/font-awesome/css/solid.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap">
+
+    <!-- Scripts -->
+    <!-- STL Viewer -->
+    <script src="vendor/scripts/stl_viewer/stl_viewer.min.js"></script>
+
+    <!-- Angular -->
+    <script src="vendor/scripts/angular.min.js"></script>
+    <script src="vendor/scripts/angular-route.min.js"></script>
+
+    <script src="resources/scripts/app.js"></script>
+    <script src="resources/scripts/directives.js"></script>
+</head>
+<body ng-app="app">
+    <div nav></div>
+    <main id="ngview" ng-view autoscroll="true"></main>
+</body>
+</html>

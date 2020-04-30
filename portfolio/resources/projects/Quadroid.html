@@ -1,0 +1,78 @@
+<div class="page">
+    <div class="page-header">
+        <h1>Quadroid</h1>
+    </div>
+
+    <div class="page-content">
+        <h3>
+            Source: <a href="https://github.com/cbfshr/Quadroid" target="_blank">Quadroid <i class="fab fa-github"></i></a>
+        </h3>
+        <h3>
+            Fall 2015, Group Project
+        </h3>
+
+        <p>
+            With a little bit of reverse engineering, anything is possible!
+        </p>
+
+        <img src="resources/images/projects/quadroid/quadroid.png" />
+
+        <p>
+            Quadroid is a unique team project that consists of a Syma X11
+            Quadcopter, an Arduino board, and a Nexus 7 Android tablet. The
+            ambitious end goal of the project was to be able to control the
+            quadcopter with the Nexus 7 tablet.
+        </p>
+        <p>
+            The way we went about it was like this: we first needed to
+            reverse-engineer the default RF controller for the quadcopter. Next,
+            we needed to be able to emulate electrical signals that would normally
+            be determined by the resistance of the joysticks. We connected wires
+            to the Arduino board and directly soldered the other end of the wires
+            to the controller's circuit board where the joysticks previously were.
+        </p>
+        <p>
+            The picture to the left shows the wiring between the Arduino and
+            controller circuit board.
+        </p>
+        <p>
+            On the other end of the spectrum, the Android application needed to do
+            two things: emulate two joysticks and send the input information to
+            the Arduino (using the Arduino Mega ADK). (Pictured to the left)
+        </p>
+        <p>
+            From there, the Arduino could send the correct signals to the
+            controller, which would then control the quadcopter.
+        </p>
+        <p>
+            Once we got it working 100%, we were able to add a second flight mode
+            to the Android application which allowed us to fly the quadcopter by
+            controlling the roll and pitch with theaccelerometer values on the
+            Android tablet. (Pictured to the right)
+        </p>
+
+        <div class="masonry-wrapper">
+            <div class="masonry">
+                <div class="masonry-item">
+                    <img src="resources/images/projects/quadroid/quadroid_joystick-control.png" />
+                    <div class="masonry-info">
+                        Joystick Control
+                    </div>
+                </div>
+                <div class="masonry-item">
+                    <img src="resources/images/projects/quadroid/quadroid_joystick-control.png" />
+                    <div class="masonry-info">
+                        Accelerometer Control
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <p>
+            The project worked surprisingly well, and we went above and beyond the
+            minimum requirements by implementing such a complex, reverse-engineered system.
+        </p>
+
+        <iframe src="https://drive.google.com/file/d/1UiCrSRh9BvetydDI9VtitmainmWVsUVhXg/preview" width="640" height="480"></iframe>                
+    </div>
+</div>

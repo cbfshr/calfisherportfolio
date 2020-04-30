@@ -1,0 +1,30 @@
+#contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+
+    justify-items: center;
+    text-align: center;
+}
+
+#contact-grid i {
+    font-size: 12rem;
+}
+
+#contact-grid .text {
+    font-size: 1.5rem;
+}
+
+#thingiverse {
+    fill: #428bca;
+}
+
+#thingiverse:hover {
+    fill: #2a6496;
+}
+
+@media only screen and (max-width: 600px) {
+    #contact-grid {
+        gap: 1rem;
+    }
+}

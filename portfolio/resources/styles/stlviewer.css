@@ -1,0 +1,19 @@
+.stl-wrapper {
+    padding: 0.5rem;
+}
+
+.stl-viewer {
+    width: 100%;
+    min-height: 400px;
+    max-width: 640px;
+
+    background-color: rgb(230, 230, 230);
+
+    box-sizing: border-box;
+}
+
+.stl-viewer canvas {
+  overflow: hidden;
+  width: 100% !important;
+  height: 100% !important;
+}
