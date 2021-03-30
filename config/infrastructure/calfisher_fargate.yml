@@ -49,8 +49,7 @@ Resources:
             awslogs-region:
               Ref: AWS::Region
             awslogs-stream-prefix: nginx
-        # TODO: Update?
-        Name: nginx
+        Name: calfishernginx
         PortMappings:
         - ContainerPort: 80
       Cpu: '512'
@@ -58,7 +57,7 @@ Resources:
         Fn::GetAtt:
         - TaskExecutionRole
         - Arn
-      # Family: calfishernginx
+      Family: calfishernginx
       Memory: 1GB
       NetworkMode: awsvpc
       RequiresCompatibilities:
@@ -193,7 +192,7 @@ Resources:
       DesiredCount: 1
       LaunchType: FARGATE
       LoadBalancers:
-      - ContainerName: nginx
+      - ContainerName: calfishernginx
         ContainerPort: 80
         TargetGroupArn:
           Ref: ALBTargetGroup
