@@ -200,3 +200,21 @@ https://fontawesome.com/
 
 ### STL Viewer
 https://www.viewstl.com/plugin/
+
+## Images
+Images will eventually be hosted in S3 (ideally). For now, I reduce the image size to improve upload/download time and page performance.
+
+Guide:
+* https://docs.gimp.org/2.8/en/gimp-using-web.html
+* https://smallbusiness.chron.com/optimize-images-gimp-45437.html
+
+Steps:
+1. Open image in GIMP
+2. Image > Flatten Image
+3. Image > Scale Image
+    * Whichever is larger, height or width, is set to 1024
+4. Image > Mode > Indexed
+    * Generate Optimum Palette
+    * Maximum number of colors: 255
+    * Convert
+5. Export as PNG

@@ -45,6 +45,9 @@ angular.module("app", [
         $routeProvider.when('/projects/glow_night_stand_drink_holder', {
             templateUrl: 'resources/projects/glow_night_stand_drink_holder.html'
         });
+        $routeProvider.when('/projects/led_deer_head', {
+            templateUrl: 'resources/projects/led_deer_head.html'
+        });
         $routeProvider.when('/projects/mountain_snowfall', {
             templateUrl: 'resources/projects/mountain_snowfall.html'
         });
@@ -59,6 +62,9 @@ angular.module("app", [
         });
         $routeProvider.when('/projects/turtle_tank', {
             templateUrl: 'resources/projects/turtle_tank.html'
+        });
+        $routeProvider.when('/projects/tesla_cybertruck', {
+            templateUrl: 'resources/projects/tesla_cybertruck.html'
         });
 
         $routeProvider.when('/contact', {
