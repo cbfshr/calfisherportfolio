@@ -105,6 +105,12 @@ docker stop $(docker ps | grep "calfisherportfolio:$(cat .version)" | awk '{prin
 
 For learning purposes, I followed this guide to stand up a Fargate cluster to run my web application: [Building, deploying, and operating containerized applications with AWS Fargate](https://aws.amazon.com/blogs/compute/building-deploying-and-operating-containerized-applications-with-aws-fargate)
 
+Validate the Cloudformation template (and verify the CLI return code is `0` if there are misc outputs):
+```
+aws cloudformation validate-template \
+  --template-body file://config/infrastructure/calfisher_fargate.yml && echo $?
+```
+
 Using a Cloudformation template, I can stand up the infrastructure in AWS with the following command:
 ```
 aws cloudformation create-stack \
@@ -186,6 +192,26 @@ Set up HTTPS with CloudFront: https://www.youtube.com/watch?v=uwgB_sIhIko
     * Rather than using the S3 resources, copy the S3 bucket website
 
 Update Github workflow to zip and upload to S3?
+
+### HTTPS
+https://computingforgeeks.com/configure-aws-application-load-balancer-with-cloudformation/
+
+1. Add `tcp` / `443` to ALB Security Group
+2. Add HTTPS listener
+3. Add HTTP Listener to route HTTP to HTTPS
+4. Add Listener Rule to forward requests to the ALB Target Group
+5. Go to AWS Certificate Manager (ACM)
+6. Request a new certificate
+7. Add domain names: `calfisher.com` and `*.calfisher.com`
+8. Select validation method: DNS
+9. Add tags: N/A currently
+10. Review
+11. Validation
+    1. Click on dropdown arrow for each domain
+    2. Click "Create record in Route 53" > "Create"
+    3. Status should now be "Success"
+
+**Note:** To apply the CloudFormation template changes, I had to manually delete the old listener from the AWS UI.
 
 ## Deployment
 The deployment is orchestrated through a [Github Actions](https://github.com/features/actions) workflow.

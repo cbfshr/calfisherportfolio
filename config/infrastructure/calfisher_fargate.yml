@@ -63,10 +63,73 @@ Resources:
       RequiresCompatibilities:
       - FARGATE
 
+  TaskExecutionPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+        - Action:
+          - ecr:GetAuthorizationToken
+          - ecr:BatchCheckLayerAvailability
+          - ecr:GetDownloadUrlForLayer
+          - ecr:BatchGetImage
+          - logs:CreateLogStream
+          - logs:PutLogEvents
+          Effect: Allow
+          Resource:
+          - "*"
+        Version: '2012-10-17'
+      PolicyName: fargate-execution
+      Roles:
+      - Ref: TaskExecutionRole
+
+  TaskExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action:
+          - sts:AssumeRole
+          Effect: Allow
+          Principal:
+            Service:
+            - ecs-tasks.amazonaws.com
+
+  TaskSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Task Security Group
+      SecurityGroupIngress:
+      - FromPort: '80'
+        IpProtocol: tcp
+        SourceSecurityGroupId:
+          Fn::GetAtt:
+          - ALBSecurityGroup
+          - GroupId
+        ToPort: '80'
+      VpcId:
+        Ref: VPC
+
   CWLogGroup:
     Type: AWS::Logs::LogGroup
 
   # Step 3 – Create an Application Load Balancer
+  ALBSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: ALB Security Group
+      SecurityGroupIngress:
+      - CidrIp: 0.0.0.0/0
+        FromPort: '80'
+        IpProtocol: tcp
+        ToPort: '80'
+      - CidrIp: "0.0.0.0/0"
+        FromPort: 443
+        IpProtocol: "tcp"
+        ToPort: 443
+      VpcId:
+        Ref: VPC
+
   ALB:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
@@ -77,29 +140,57 @@ Resources:
       - Ref: PubSubnetAz1
       - Ref: PubSubnetAz2
 
-  ALBListener:
-    Type: AWS::ElasticLoadBalancingV2::Listener
+  HTTPSListener:
+    Type: "AWS::ElasticLoadBalancingV2::Listener"
     Properties:
+      LoadBalancerArn: !Ref ALB
+      Port: 443
+      Protocol: "HTTPS"
+      SslPolicy: "ELBSecurityPolicy-2016-08"
+      Certificates:
+      - CertificateArn: arn:aws:acm:us-east-2:016211234852:certificate/3cc80b4a-9438-45c4-8d73-07f10b7f35c4
       DefaultActions:
-      - TargetGroupArn:
-          Ref: ALBTargetGroup
-        Type: forward
-      LoadBalancerArn:
-        Ref: ALB
-      Port: '80'
-      Protocol: HTTP
+      - Order: 1
+        TargetGroupArn: !Ref ALBTargetGroup
+        Type: "forward"
 
-  ALBSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
+  HTTPListener:
+    Type: "AWS::ElasticLoadBalancingV2::Listener"
     Properties:
-      GroupDescription: ALB Security Group
-      SecurityGroupIngress:
-      - CidrIp: 0.0.0.0/0
-        FromPort: '80'
-        IpProtocol: tcp
-        ToPort: '80'
-      VpcId:
-        Ref: VPC
+      LoadBalancerArn: !Ref ALB
+      Port: 80
+      Protocol: "HTTP"
+      DefaultActions:
+      - Order: 1
+        RedirectConfig:
+          Protocol: "HTTPS"
+          Port: "443"
+          Host: "#{host}"
+          Path: "/#{path}"
+          Query: "#{query}"
+          StatusCode: "HTTP_301"
+        Type: "redirect"
+
+  ListenerRule:
+    Type: "AWS::ElasticLoadBalancingV2::ListenerRule"
+    Properties:
+      Priority: "2"
+      ListenerArn: !Ref HTTPSListener
+      Conditions:
+      - Field: "host-header"
+        Values:
+        - "calfisher.com"
+        - "www.calfisher.com"
+      Actions:
+      - Type: "forward"
+        TargetGroupArn: !Ref ALBTargetGroup
+        Order: 1
+        ForwardConfig:
+          TargetGroups:
+          - TargetGroupArn: !Ref ALBTargetGroup
+            Weight: 1
+          TargetGroupStickinessConfig:
+            Enabled: false
 
   ALBTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
@@ -185,7 +276,7 @@ Resources:
 
   Service:
     Type: AWS::ECS::Service
-    DependsOn: ALBListener
+    DependsOn: ListenerRule
     Properties:
       Cluster:
         Ref: ECSCluster
@@ -207,51 +298,3 @@ Resources:
       ServiceName: calfisher
       TaskDefinition:
         Ref: TaskDefinition
-
-  TaskExecutionPolicy:
-    Type: AWS::IAM::Policy
-    Properties:
-      PolicyDocument:
-        Statement:
-        - Action:
-          - ecr:GetAuthorizationToken
-          - ecr:BatchCheckLayerAvailability
-          - ecr:GetDownloadUrlForLayer
-          - ecr:BatchGetImage
-          - logs:CreateLogStream
-          - logs:PutLogEvents
-          Effect: Allow
-          Resource:
-          - "*"
-        Version: '2012-10-17'
-      PolicyName: fargate-execution
-      Roles:
-      - Ref: TaskExecutionRole
-
-  TaskExecutionRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Statement:
-        - Action:
-          - sts:AssumeRole
-          Effect: Allow
-          Principal:
-            Service:
-            - ecs-tasks.amazonaws.com
-
-  TaskSecurityGroup:
-    Type: AWS::EC2::SecurityGroup
-    Properties:
-      GroupDescription: Task Security Group
-      SecurityGroupIngress:
-      - FromPort: '80'
-        IpProtocol: tcp
-        SourceSecurityGroupId:
-          Fn::GetAtt:
-          - ALBSecurityGroup
-          - GroupId
-        ToPort: '80'
-      VpcId:
-        Ref: VPC
-
