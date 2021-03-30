@@ -73,6 +73,6 @@ jobs:
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
-        cluster: test
+        cluster: Fargate
         service: calfisher
         wait-for-service-stability: true

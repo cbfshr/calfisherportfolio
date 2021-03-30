@@ -65,7 +65,6 @@ Resources:
   CWLogGroup:
     Type: AWS::Logs::LogGroup
 
-
   # Step 3 – Create an Application Load Balancer
   ALB:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
@@ -117,8 +116,6 @@ Resources:
       VpcId:
         Ref: VPC
 
-
-
   AttachGateway:
     Type: AWS::EC2::VPCGatewayAttachment
     Properties:
@@ -126,7 +123,6 @@ Resources:
         Ref: InternetGateway
       VpcId:
         Ref: VPC
-
 
   InternetGateway:
     Type: AWS::EC2::InternetGateway
@@ -207,9 +203,9 @@ Resources:
           Subnets:
           - Ref: PubSubnetAz1
           - Ref: PubSubnetAz2
+      ServiceName: calfisher
       TaskDefinition:
         Ref: TaskDefinition
-
 
   TaskExecutionPolicy:
     Type: AWS::IAM::Policy

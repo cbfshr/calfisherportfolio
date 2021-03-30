@@ -113,6 +113,14 @@ aws cloudformation create-stack \
   --capabilities CAPABILITY_NAMED_IAM
 ```
 
+Subsequent change to the CloudFormation template can be applied with this command:
+```
+aws cloudformation update-stack \
+  --stack-name calfisher \
+  --template-body file://config/infrastructure/calfisher_fargate.yml \
+  --capabilities CAPABILITY_NAMED_IAM
+```
+
 Future CloudFormation Learning:
 * AWS CloudFormation Designer:
     * https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/working-with-templates-cfn-designer-walkthrough-createbasicwebserver.html
