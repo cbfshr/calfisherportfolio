@@ -1,13 +1,19 @@
 # calfisher.com v2
-Second edition of calfisher.com. Still written with HTML, CSS, and AngularJS, but now implementing better development practices and organization.
+Second edition of calfisher.com. Still written with HTML, CSS, and AngularJS, but now implementing better development practices and infrastructure.
 
 - [Development](#development)
     - [Docker Build](#docker-build)
     - [Docker Run](#docker-run)
     - [Docker Stop](#docker-stop)
 - [Release](#release)
+- [Infrastructure](#infrastructure)
+    - [Fargate Cluster](#fargate-cluster)
+    - [Route53](#route53)
+        - [Add WWW Record](#add-www-record)
 - [Deployment](#deplyment)
 - [Features](#features)
+    - [Angular](#angular)
+    - [Font Awesome](#font-awesome)
     - [STL Viewer](#stl-viewer)
 
 ## Development
@@ -93,8 +99,89 @@ docker stop $(docker ps | grep "calfisherportfolio:$(cat .version)" | awk '{prin
         git push origin master && git push --tags
         ```
 
+## Infrastructure
+
+### Fargate Cluster
+
+For learning purposes, I followed this guide to stand up a Fargate cluster to run my web application: [](https://aws.amazon.com/blogs/compute/building-deploying-and-operating-containerized-applications-with-aws-fargate)
+
+Using a Cloudformation template, I can stand up the infrastructure in AWS with the following command:
+```
+aws cloudformation create-stack \
+  --stack-name calfisher \
+  --template-body file://config/infrastructure/calfisher_fargate.yml \
+  --capabilities CAPABILITY_NAMED_IAM
+```
+
+Future CloudFormation Learning:
+* AWS CloudFormation Designer:
+    * https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/working-with-templates-cfn-designer-walkthrough-createbasicwebserver.html
+
+### Route53
+In order to route the requests to calfisher.com to the web application running in Fargate (using the ALB), follow these steps:
+1. Go to Route53
+2. Go to Hosted Zones
+3. Go to calfisher.com
+4. Click `Create Record`
+5. Choose routing policy: `Simple routing`
+6. Click `Define Simple Record`
+7. Record type: `A - Routes traffic to an IPV4 address and some AWS resources`
+8. Value/Route traffic to:
+    1. Choose endpoint: `Alias to Application and Classic Load Balancer`
+    2. Choose Region: `US East (Ohio)[us-east-2]`
+    3. Choose load balancer
+9. Click `Define simple record`
+
+#### Add WWW Record
+
+1. Go to Route53
+2. Go to Hosted Zones
+3. Go to calfisher.com
+4. Click `Create Record`
+5. Choose routing policy: `Simple routing`
+6. Click `Define Simple Record`
+7. Record name: `www.calfisher.com`
+8. Record type: `A - Routes traffic to an IPV4 address and some AWS resources`
+9. Value/Route traffic to:
+    1. Choose endpoint: `Alias to another record in this hosted zone`
+    2. Choose Region: `US East (N.Virginia)[us-east-1]`
+    3. Choose record
+
+### S3 Hosted
+
+Route53, S3, CloudFront
+
+Set up HTTPS with CloudFront: https://www.youtube.com/watch?v=uwgB_sIhIko
+
+1. Set up calfisher.com and www.calfisher.com S3 buckets
+    * calfisher.com has contents
+        * Bucket Policy:
+            ```
+            {
+                "Version": "20120-10-17",
+                "Statement": [
+                    {
+                        "Sid": "PublicReadGetObject",
+                        "Effect": "Allow",
+                        "Principal": {
+                            "AWS": "*"
+                        },
+                        "Action": "s3:GetObject",
+                        "Resource": "arn:aws:s3:::calfisher.com/*
+                    }
+                ]
+            }
+            ```
+    * www.calfisher.com redirects to calfisher.com
+2. Set up CloudFront
+    * Rather than using the S3 resources, copy the S3 bucket website
+
+Update Github workflow to zip and upload to S3?
+
 ## Deployment
-TODO: Setup automated AWS Fargate deployment and document here
+The deployment is orchestrated through a [Github Actions](https://github.com/features/actions) workflow.
+
+See [.github/workflows/aws.yml](.github/workflows/aws.yml) for workflow configuration and [config/ecs_task_def.json](config/ecs_task_def.json) for ECS Task Definition
 
 ## Features
 ### Angular
