@@ -103,7 +103,7 @@ docker stop $(docker ps | grep "calfisherportfolio:$(cat .version)" | awk '{prin
 
 ### Fargate Cluster
 
-For learning purposes, I followed this guide to stand up a Fargate cluster to run my web application: [](https://aws.amazon.com/blogs/compute/building-deploying-and-operating-containerized-applications-with-aws-fargate)
+For learning purposes, I followed this guide to stand up a Fargate cluster to run my web application: [Building, deploying, and operating containerized applications with AWS Fargate](https://aws.amazon.com/blogs/compute/building-deploying-and-operating-containerized-applications-with-aws-fargate)
 
 Using a Cloudformation template, I can stand up the infrastructure in AWS with the following command:
 ```
@@ -113,7 +113,7 @@ aws cloudformation create-stack \
   --capabilities CAPABILITY_NAMED_IAM
 ```
 
-Subsequent change to the CloudFormation template can be applied with this command:
+Subsequent changes to the CloudFormation template can be applied with this command:
 ```
 aws cloudformation update-stack \
   --stack-name calfisher \
@@ -156,6 +156,7 @@ In order to route the requests to calfisher.com to the web application running i
     3. Choose record
 
 ### S3 Hosted
+**Note:** Not currently implemented.
 
 Route53, S3, CloudFront
 
