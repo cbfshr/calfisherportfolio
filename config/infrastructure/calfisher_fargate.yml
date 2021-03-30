@@ -49,6 +49,7 @@ Resources:
             awslogs-region:
               Ref: AWS::Region
             awslogs-stream-prefix: nginx
+        # TODO: Update?
         Name: nginx
         PortMappings:
         - ContainerPort: 80
@@ -57,6 +58,7 @@ Resources:
         Fn::GetAtt:
         - TaskExecutionRole
         - Arn
+      # Family: calfishernginx
       Memory: 1GB
       NetworkMode: awsvpc
       RequiresCompatibilities:
