@@ -231,6 +231,8 @@ When deploying to Fargate, the ECS Task Definition can be found here: [config/ec
 ### S3
 When deploying to S3, there isn't any additional configuration needed.
 
+Uses https://github.com/marketplace/actions/s3-deploy
+
 ## Features
 ### Angular
 https://angularjs.org/
