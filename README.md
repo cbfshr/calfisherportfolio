@@ -8,9 +8,14 @@ Second edition of calfisher.com. Still written with HTML, CSS, and AngularJS, bu
 - [Release](#release)
 - [Infrastructure](#infrastructure)
     - [Fargate Cluster](#fargate-cluster)
-    - [Route53](#route53)
+        - [Route53](#route53)
         - [Add WWW Record](#add-www-record)
+        - [HTTPS](#https)
+    - [S3 Hosted](#s3-hosted)
+        - [Update Github Workflow to Upload File to S3](#update-github-workflow-to-upload-files-to-s3)
 - [Deployment](#deplyment)
+    - [Fargate](#fargate)
+    - [S3](#s3)
 - [Features](#features)
     - [Angular](#angular)
     - [Font Awesome](#font-awesome)
@@ -70,7 +75,7 @@ docker stop $(docker ps | grep "calfisherportfolio:$(cat .version)" | awk '{prin
         ```
 
 ## Release
-* **Note:** Currently, this release process is manual but will be automated in the future.
+* **Note:** This release process is manual but will be automated in the future.
 
 * Steps:
     1. Update [.version](.version) file to the release version
@@ -102,6 +107,7 @@ docker stop $(docker ps | grep "calfisherportfolio:$(cat .version)" | awk '{prin
 ## Infrastructure
 
 ### Fargate Cluster
+**Note:** Not currently implemented. See [S3 Hosted](#s3-hosted).
 
 For learning purposes, I followed this guide to stand up a Fargate cluster to run my web application: [Building, deploying, and operating containerized applications with AWS Fargate](https://aws.amazon.com/blogs/compute/building-deploying-and-operating-containerized-applications-with-aws-fargate)
 
@@ -131,7 +137,7 @@ Future CloudFormation Learning:
 * AWS CloudFormation Designer:
     * https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/working-with-templates-cfn-designer-walkthrough-createbasicwebserver.html
 
-### Route53
+#### Route53
 In order to route the requests to calfisher.com to the web application running in Fargate (using the ALB), follow these steps:
 1. Go to Route53
 2. Go to Hosted Zones
@@ -161,10 +167,30 @@ In order to route the requests to calfisher.com to the web application running i
     2. Choose Region: `US East (N.Virginia)[us-east-1]`
     3. Choose record
 
-### S3 Hosted
-**Note:** Not currently implemented.
+#### HTTPS
+Guide: https://computingforgeeks.com/configure-aws-application-load-balancer-with-cloudformation/
 
-Route53, S3, CloudFront
+1. Add `tcp` / `443` to ALB Security Group
+2. Add HTTPS listener
+3. Add HTTP Listener to route HTTP to HTTPS
+4. Add Listener Rule to forward requests to the ALB Target Group
+5. Go to AWS Certificate Manager (ACM)
+6. Request a new certificate
+7. Add domain names: `calfisher.com` and `*.calfisher.com`
+8. Select validation method: DNS
+9. Add tags: N/A currently
+10. Review
+11. Validation
+    1. Click on dropdown arrow for each domain
+    2. Click "Create record in Route 53" > "Create"
+    3. Status should now be "Success"
+
+**Note:** To apply the CloudFormation template changes, I had to manually delete the old listener from the AWS UI.
+
+### S3 Hosted
+**Note:** This deployment strategy is now active due to high cost of maintaining a Fargate cluster, which was primarily built-out for learning purposes.
+
+Route53, S3, and (soon) CloudFront
 
 Set up HTTPS with CloudFront: https://www.youtube.com/watch?v=uwgB_sIhIko
 
@@ -191,32 +217,19 @@ Set up HTTPS with CloudFront: https://www.youtube.com/watch?v=uwgB_sIhIko
 2. Set up CloudFront
     * Rather than using the S3 resources, copy the S3 bucket website
 
-Update Github workflow to zip and upload to S3?
-
-### HTTPS
-https://computingforgeeks.com/configure-aws-application-load-balancer-with-cloudformation/
-
-1. Add `tcp` / `443` to ALB Security Group
-2. Add HTTPS listener
-3. Add HTTP Listener to route HTTP to HTTPS
-4. Add Listener Rule to forward requests to the ALB Target Group
-5. Go to AWS Certificate Manager (ACM)
-6. Request a new certificate
-7. Add domain names: `calfisher.com` and `*.calfisher.com`
-8. Select validation method: DNS
-9. Add tags: N/A currently
-10. Review
-11. Validation
-    1. Click on dropdown arrow for each domain
-    2. Click "Create record in Route 53" > "Create"
-    3. Status should now be "Success"
-
-**Note:** To apply the CloudFormation template changes, I had to manually delete the old listener from the AWS UI.
+#### Update Github Workflow to Upload File to S3
+Guide: https://dev.to/johnkevinlosito/deploy-static-website-to-s3-using-github-actions-4a0e
 
 ## Deployment
 The deployment is orchestrated through a [Github Actions](https://github.com/features/actions) workflow.
 
-See [.github/workflows/aws.yml](.github/workflows/aws.yml) for workflow configuration and [config/ecs_task_def.json](config/ecs_task_def.json) for ECS Task Definition
+See [.github/workflows/aws.yml](.github/workflows/aws.yml) for workflow configuration.
+
+### Fargate
+When deploying to Fargate, the ECS Task Definition can be found here: [config/ecs_task_def.json](config/ecs_task_def.json)
+
+### S3
+When deploying to S3, there isn't any additional configuration needed.
 
 ## Features
 ### Angular
