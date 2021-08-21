@@ -220,6 +220,11 @@ Set up HTTPS with CloudFront: https://www.youtube.com/watch?v=uwgB_sIhIko
 #### Update Github Workflow to Upload File to S3
 Guide: https://dev.to/johnkevinlosito/deploy-static-website-to-s3-using-github-actions-4a0e
 
+Actually ended up using this Github Action instead of the `aws s3 sync` command: https://github.com/marketplace/actions/s3-deploy
+
+#### Point calfisher.com at S3 Bucket Contents
+[Step 11: Add alias records for your domain and subdomain](https://docs.aws.amazon.com/AmazonS3/latest/userguide/website-hosting-custom-domain-walkthrough.html#root-domain-walkthrough-add-record-to-hostedzone)
+
 ## Deployment
 The deployment is orchestrated through a [Github Actions](https://github.com/features/actions) workflow.
 
