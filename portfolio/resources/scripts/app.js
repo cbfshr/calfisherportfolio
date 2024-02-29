@@ -66,6 +66,25 @@ angular.module("app", [
         $routeProvider.when('/projects/tesla_cybertruck', {
             templateUrl: 'resources/projects/tesla_cybertruck.html'
         });
+        $routeProvider.when('/projects/toyota_tacoma', {
+            templateUrl: 'resources/projects/toyota_tacoma.html'
+        });
+        $routeProvider.when('/projects/boulevard_sign', {
+            templateUrl: 'resources/projects/boulevard_sign.html'
+        });
+        $routeProvider.when('/projects/untitled_goose_game', {
+            templateUrl: 'resources/projects/untitled_goose_game.html'
+        });
+        $routeProvider.when('/projects/lightswitch_key_ring_holder', {
+            templateUrl: 'resources/projects/lightswitch_key_ring_holder.html'
+        });
+        $routeProvider.when('/projects/spacex_dragon_capsule', {
+            templateUrl: 'resources/projects/spacex_dragon_capsule.html'
+        });
+
+        $routeProvider.when('/photography', {
+            templateUrl: 'resources/photography.html'
+        });
 
         $routeProvider.when('/contact', {
             templateUrl: 'resources/contact.html'

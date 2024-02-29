@@ -17,6 +17,10 @@
     --transition-speed: 600ms;
 }
 
+html {
+    min-height: 100%;
+}
+
 body {
     color: black;
     background-color: white;
@@ -88,6 +92,12 @@ ul {
 
 hr {
     margin : 1rem 0;
+}
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* ------ Responsiveness ------ */
