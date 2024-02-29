@@ -52,8 +52,8 @@
 }
 
 .nav-icon {
-    /* font-size: 2rem;
-    min-width: 2.5rem; */
+    /* font-size: 2rem; */
+    min-width: 0.5rem;
     padding: 0 0.5rem;
 
     display: flex;
@@ -69,17 +69,12 @@
 /* ------ Responsiveness ------ */
 /* Tiny Screens */
 @media only screen and (max-width: 320px) {
-    .nav-icon {
-        min-width: 1rem;
-        padding: 0 1rem;
-    }
-
     .logo {
         font-size: 1.5rem;
     }
+
     .nav-icon {
         font-size: 1rem;
-        padding: 0 0;
     }
 }
 
