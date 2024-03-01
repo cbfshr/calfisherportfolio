@@ -1,6 +1,5 @@
 .home-intro {
     text-align: left;
-    padding: 0 1rem;
 }
 
 #home-grid i {
@@ -13,13 +12,11 @@
 
 .home-item {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1rem;
 
     justify-items: center;
     text-align: left;
-
-    padding: 1rem;
 }
 
 /* ------ Responsiveness ------ */
@@ -29,12 +26,19 @@
         text-align: left;
         padding: 0 1rem;
     }
-}
 
+    #home-grid i {
+        font-size: 1.5rem;
+    }
+
+    #home-grid .text {
+        font-size: 1.5rem;
+    }
+}
 
 .intro-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1rem;
     justify-items: center;
 }

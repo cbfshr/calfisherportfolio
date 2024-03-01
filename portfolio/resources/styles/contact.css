@@ -17,6 +17,7 @@
 
 #thingiverse {
     fill: #428bca;
+    width: 10rem;
 }
 
 #thingiverse:hover {
@@ -24,6 +25,18 @@
 }
 
 @media only screen and (max-width: 600px) {
+    #contact-grid i {
+        font-size: 6rem;
+    }
+
+    #thingiverse {
+        width: 6rem;
+    }
+
+    #contact-grid .text {
+        font-size: 1rem;
+    }
+
     #contact-grid {
         gap: 1rem;
     }
