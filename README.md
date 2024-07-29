@@ -238,6 +238,22 @@ When deploying to S3, there isn't any additional configuration needed.
 
 Uses https://github.com/marketplace/actions/s3-deploy
 
+#### Website Pages Not Updating Promptly
+Sometimes the Cloudfront distribution takes awhile to update the website, so to force an update for a particular page, you can use Cloudfront Distribution Invalidations.
+
+Resource: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Invalidation_Requests.html
+
+When entering a value in the Invalidations, enter the name of the pages that were updated like so:
+```
+/resources/scripts/app.js
+/resources/projects.html
+/resources/projects/toyota_tacoma.html
+/resources/about.html
+/resources/photography.html
+```
+
+Then to a force refresh of the page in question. It should now be updated with the latest changes.
+
 ## Features
 ### Angular
 https://angularjs.org/
