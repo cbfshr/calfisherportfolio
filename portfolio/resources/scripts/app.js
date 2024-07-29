@@ -81,6 +81,9 @@ angular.module("app", [
         $routeProvider.when('/projects/spacex_dragon_capsule', {
             templateUrl: 'resources/projects/spacex_dragon_capsule.html'
         });
+        $routeProvider.when('/projects/new_way_van_life', {
+            templateUrl: 'resources/projects/new_way_van_life.html'
+        });
 
         $routeProvider.when('/photography', {
             templateUrl: 'resources/photography.html'
