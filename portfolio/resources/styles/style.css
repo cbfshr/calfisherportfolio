@@ -109,6 +109,14 @@ hr {
     .grid {
         grid-template-columns: 1fr 1fr;
     }
+
+    .smallscreendisplay {
+        display: block;
+    }
+
+    .largescreendisplay {
+        display: none;
+    }
 }
 
 /* --- Medium Screens --- */
@@ -117,6 +125,14 @@ hr {
         padding: 5rem 1em 1em 1em;
         margin: 0 2rem;
     }
+
+    .smallscreendisplay {
+        display: block;
+    }
+
+    .largescreendisplay {
+        display: none;
+    }
 }
 
 /* --- Large Screens --- */
@@ -124,5 +140,13 @@ hr {
     .page {
         margin: 0 6rem;
         /* padding: 1rem; */
+    }
+
+    .smallscreendisplay {
+        display: none;
+    }
+
+    .largescreendisplay {
+        display: block;
     }
 }
