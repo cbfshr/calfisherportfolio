@@ -9,10 +9,10 @@ angular.module("app", [
         'ngRoute'
     ])
     .config(function($locationProvider, $routeProvider) {
-        // $locationProvider.html5Mode({
-        //     enabled: true,
-        //     requireBase: false
-        // });
+        $locationProvider.html5Mode({
+            enabled: true,
+            requireBase: false
+        });
 
         $routeProvider.when('/', {
             templateUrl: 'resources/home.html'
